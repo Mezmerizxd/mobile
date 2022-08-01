@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 
 const TaskCollection = [
     {
@@ -17,6 +17,8 @@ const TaskCollection = [
 
 export default function App() {
     const [tasks, setTasks] = useState(TaskCollection);
+    const [showAddTask, setShowAddTask] = useState(false);
+    const [addTaskNewName, setAddTaskNewName] = useState('');
 
     return (
         <View style={styles.container}>
@@ -28,20 +30,13 @@ export default function App() {
                     <Pressable
                         style={styles.button}
                         onPress={() => {
-                            setTasks([
-                                ...tasks,
-                                {
-                                    id: tasks.length + 1,
-                                    title: 'New task',
-                                    completed: false,
-                                },
-                            ]);
+                            setShowAddTask(true);
                         }}
                     >
                         <Text style={styles.text}>Add Task</Text>
                     </Pressable>
 
-                    {TaskCollection.map((task) => (
+                    {tasks.map((task) => (
                         <View key={task.id} style={styles.task_container}>
                             <View style={styles.task_data}>
                                 <Text style={styles.task_title}>
@@ -71,6 +66,7 @@ export default function App() {
                                                 return t;
                                             });
                                             setTasks(newTasks);
+                                            setAddTaskNewName('');
                                         }}
                                     >
                                         <Text style={styles.box_text}>✅</Text>
@@ -81,6 +77,50 @@ export default function App() {
                     ))}
                 </View>
             </View>
+
+            {showAddTask && (
+                <View style={styles.addTask_container}>
+                    <Pressable
+                        style={styles.addTask_exit}
+                        onPress={() => {
+                            setShowAddTask(false);
+                        }}
+                    >
+                        <Text style={styles.addTask_exit_text}>❌</Text>
+                    </Pressable>
+                    <View style={styles.addTask_header}>
+                        <Text style={styles.addTask_header_title}>Add Task</Text>
+                        <Text style={styles.addTask_header_caption}>Add task here</Text>
+                    </View>
+                    <View style={styles.addTask_body}>
+                        <TextInput
+                            style={styles.addTask_body_taskName}
+                            onChangeText={(e) => {
+                                setAddTaskNewName(e);
+                            }}
+                            value={addTaskNewName}
+                            placeholder="Task name"
+                        />
+                        <Pressable
+                            style={styles.addTask_body_submit}
+                            onPress={() => {
+                                setTasks([
+                                    ...tasks,
+                                    {
+                                        id: tasks.length + 1,
+                                        title: addTaskNewName,
+                                        completed: false,
+                                    },
+                                ]);
+                                setAddTaskNewName('')
+                                setShowAddTask(false);
+                            }}
+                        >
+                            <Text style={styles.addTask_body_submitText}>Finish</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            )}
             <StatusBar style="light" />
         </View>
     );
@@ -100,7 +140,7 @@ const styles = StyleSheet.create({
     tasklist_header: {
         borderRadius: 5,
         width: '100%',
-        height: '5%',
+        height: 50,
         backgroundColor: '#455CA0',
         justifyContent: 'center',
         alignItems: 'center',
@@ -112,7 +152,9 @@ const styles = StyleSheet.create({
     },
 
     tasklist_body: {
-        height: '95%',
+        maxHeight: '95%',
+        overflow: 'scroll',
+
     },
     task_container: {
         borderRadius: 5,
@@ -124,7 +166,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        height: '8%',
+        height: 50,
     },
     task_completed: {
         fontSize: 12,
@@ -145,6 +187,63 @@ const styles = StyleSheet.create({
     },
     tickBox: {
         marginHorizontal: 5,
+    },
+
+    addTask_container: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(20, 20, 20, 0.9)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '5%',
+    },
+    addTask_exit: {
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '10%',
+        height: '5%',
+        marginLeft: '90%',
+
+    },
+    addTask_header: {
+        // center
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addTask_header_title: {
+        fontSize: 20,
+        color: 'rgb(220, 220, 220)',
+        fontWeight: 'bold',
+    },
+    addTask_body: {
+        width: '100%',
+        // center
+        height: '15%',
+        alignItems: 'center',
+        padding: '5%',
+    },
+    addTask_header_caption: {
+        fontSize: 12,
+        color: 'rgb(220, 220, 220)',     
+
+    },
+    addTask_body_taskName: {
+        borderRadius: 5,
+        backgroundColor: 'rgb(240, 240, 240)',
+        width: '100%',
+        padding: 4,
+    },
+    addTask_body_submit: {
+        borderRadius: 5,
+        backgroundColor: 'rgb(240, 240, 240)',
+        width: '60%',
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '5%',
     },
 
     button: {
