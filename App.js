@@ -89,8 +89,12 @@ export default function App() {
                         <Text style={styles.addTask_exit_text}>❌</Text>
                     </Pressable>
                     <View style={styles.addTask_header}>
-                        <Text style={styles.addTask_header_title}>Add Task</Text>
-                        <Text style={styles.addTask_header_caption}>Add task here</Text>
+                        <Text style={styles.addTask_header_title}>
+                            Add Task
+                        </Text>
+                        <Text style={styles.addTask_header_caption}>
+                            Add task here
+                        </Text>
                     </View>
                     <View style={styles.addTask_body}>
                         <TextInput
@@ -112,11 +116,13 @@ export default function App() {
                                         completed: false,
                                     },
                                 ]);
-                                setAddTaskNewName('')
+                                setAddTaskNewName('');
                                 setShowAddTask(false);
                             }}
                         >
-                            <Text style={styles.addTask_body_submitText}>Finish</Text>
+                            <Text style={styles.addTask_body_submitText}>
+                                Finish
+                            </Text>
                         </Pressable>
                     </View>
                 </View>
@@ -154,7 +160,6 @@ const styles = StyleSheet.create({
     tasklist_body: {
         maxHeight: '95%',
         overflow: 'scroll',
-
     },
     task_container: {
         borderRadius: 5,
@@ -206,7 +211,6 @@ const styles = StyleSheet.create({
         width: '10%',
         height: '5%',
         marginLeft: '90%',
-
     },
     addTask_header: {
         // center
@@ -227,8 +231,7 @@ const styles = StyleSheet.create({
     },
     addTask_header_caption: {
         fontSize: 12,
-        color: 'rgb(220, 220, 220)',     
-
+        color: 'rgb(220, 220, 220)',
     },
     addTask_body_taskName: {
         borderRadius: 5,
